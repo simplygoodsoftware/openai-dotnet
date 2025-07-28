@@ -121,12 +121,22 @@ namespace OpenAI.Chat
                     {
                         continue;
                     }
-                    kind = prop.Value.GetString().ToChatToolCallKind();
+
+                    var stringValue = prop.Value.GetString();
+                    if (string.IsNullOrWhiteSpace(stringValue))
+                    {
+                        continue;
+                    }
+                    kind = stringValue.ToChatToolCallKind();
                     continue;
                 }
                 if (prop.NameEquals("id"u8))
                 {
-                    toolCallId = prop.Value.GetString();
+                    var stringValue = prop.Value.GetString();
+                    if (!string.IsNullOrWhiteSpace(stringValue))
+                    {
+                        toolCallId = prop.Value.GetString();
+                    }
                     continue;
                 }
                 // Plugin customization: remove options.Format != "W" check
